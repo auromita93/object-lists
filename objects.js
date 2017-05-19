@@ -1,14 +1,15 @@
 var information = [];
-//stores all people 
+//stores all people and their info
 
-function createNewEntries(entry){
+function createNewEntries (entry) {
    //how data will be shown on the table
+    'use strict'
     var tr = $('<tr>');
     var td = $('<td>').text(entry.name);
     tr.append(td);
     td = $('<td>').text(entry.age);
     tr.append(td);
-    td = $('<td>').text(entry.color);
+    td = $('<td>').text(entry.food);
     tr.append(td);
     return tr;
 }
@@ -29,7 +30,7 @@ function submit (event){
   var entry = {};
   entry.name = $('#name').val();
   entry.age = $('#age').val();
-  entry.color = $('#color').val();
+  entry.food = $('#food').val();
   information.push(entry);
   populateData();
 }
