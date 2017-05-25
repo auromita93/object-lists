@@ -1,54 +1,104 @@
+'use strict';
 var information = [];
 //stores all people and their info
 
-function createNewEntries (entry) {
-   //how data will be shown on the table
-    'use strict'
-    var tr = $('<tr>');
-    var td = $('<td>').text(entry.name);
+$("#addNew").click(function(){
+    formPage();
+});
+
+$("#cancel").click(function(){
+    dataPage();
+})
+
+$("#submit").click(function(){
+    event.preventDefault();
+    information.push({
+        name: $("#name").val(),
+        age: $("#age").val()
+});
+dataPage();
+displayData();
+$("input").val();
+});
+
+//table data showcase
+function displayData(){
+ $("#dataPage").empty();
+ var tr, td, button;
+    for(var i = 0; i < information.length; i++){
+    tr = $("<tr>");
+    
+    td = $("<td>");
+    td.text(information[i].name);
     tr.append(td);
-    td = $('<td>').text(entry.age);
+    
+    td = $("<td>");
+    td.text(information[i].age);
+    
+    //adding edit/delete button in tbody
+    td =$("<td>");
+    button = $("<button type='button' class='edit'");
+    button.text("Edit");
+    td.append(button);
+    button = $("<button type='button' class='delete'");
+    button.text("Delete");
+    td.append(button);
     tr.append(td);
-    td = $('<td>').text(entry.food);
-    tr.append(td);
-    return tr;
+    
+    $("#dataPage").append(tr);  
+    }
 }
 
-//new info button handling
-$('#addNew').on('click', newInfo);
-//on click add new info
-function newInfo (event){
-    $('#dataPage').hide();
-    $('#enterPage').show();
-}
+//delete button
+$(".delete").click(function() {
+    $(this).parents("tr").remove();
+    var deleteButton = $(this).parents().siblings(":first").text();
+    information = information.filter(function(inf) {
+        return inf.name !== deleteButton;
+    });
+  
+});
 
-//submit and cancel button handling
-$('#submit').on('click', submit)
-function submit (event){
-  $('#dataPage').show();
-  $('#enterPage').hide();
-  var entry = {};
-  entry.name = $('#name').val();
-  entry.age = $('#age').val();
-  entry.food = $('#food').val();
-  information.push(entry);
-  populateData();
-}
-$('#cancel').on('click', cancel)
-function cancel (event){
-    $('#dataPage').show();
-    $('#formPage').hide();
-}
-
-
-function populateData(){
-    //actual population of the data
-    var tbody = $('#dataPage');
-    tbody.empty();
-    information.forEach(function(i){
-     var tr = createNewEntries(i)
-     tbody.append (tr);
+//edit button
+$(".edit").click(function() {
+    var editButton = $(this).parents().siblings(":first").text();
+    var editInfo = $.grep(information, function(inf) {
+        return inf.name === editButton;
+    }) [0];
+    formPage();
+    $("#name").val(editInfo.name);
+    $("#age").val(editInfo.age);  
+    information = information.filter(function(inf) {
+        return inf.title !==editButton;
     });
 
+});
+
+
+//on click show form page
+function formPage(){
+   $("#dataPage").hide();
+   $("#enterForm").show();
 }
+
+//on click show data page
+function dataPage (){
+    $("#dataPage").show();
+    $("#enterForm").hide();
+}
+
+
+
+
+
+
+
+
+
+                        
+
+
+
+
+
                         
